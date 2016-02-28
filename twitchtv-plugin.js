@@ -11,18 +11,12 @@ jQuery.extend(jQuery.fn, {
       game: "...",
       title: "...",
     },
-    protocol,
+    protocol = document.location.protocol,
     refreshTime = 30000,
     timer;
 
-    if (document.location.protocol === "https:") {
-      protocol = "https:";
-    } else {
-      protocol = "http:";
-    }
-
     function getStreamInfos (callback) {
-      $.get('https://api.twitch.tv/kraken/streams', {channel: name}, function (data) {
+      $.get(protocol + '//api.twitch.tv/kraken/streams', {channel: name}).done(function(data) {
         if (data.streams[0]) {
           data = data.streams[0];
           infos.preview = data['preview']['large'];
@@ -48,11 +42,16 @@ jQuery.extend(jQuery.fn, {
         } else {
           loadBanner();
         }
+      }).fail(function() {
+        if (callback) {
+          infos.online = true;
+          callback(infos);
+        }
       });
     }
 
     function getChannelInfos (callback) {
-      $.get('https://api.twitch.tv/kraken/channels/' + name, function (data) {
+      $.get(protocol + '//api.twitch.tv/kraken/channels/' + name).done(function (data) {
         infos.video_banner = data.video_banner;
         infos.logo = data.logo;
         infos.followers = data.followers.toLocaleString();
