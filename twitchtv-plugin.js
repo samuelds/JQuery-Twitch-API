@@ -16,7 +16,7 @@ jQuery.extend(jQuery.fn, {
     timer;
 
     function getStreamInfos (callback) {
-      $.get(protocol + '//api.twitch.tv/kraken/streams', {channel: name}).done(function(data) {
+      $.get('http//api.twitch.tv/kraken/streams', {channel: name}).done(function(data) {
         if (data.streams[0]) {
           data = data.streams[0];
           infos.preview = data['preview']['large'];
@@ -51,7 +51,7 @@ jQuery.extend(jQuery.fn, {
     }
 
     function getChannelInfos (callback) {
-      $.get(protocol + '//api.twitch.tv/kraken/channels/' + name).done(function (data) {
+      $.get('http//api.twitch.tv/kraken/channels/' + name).done(function (data) {
         infos.video_banner = data.video_banner;
         infos.logo = data.logo;
         infos.followers = data.followers.toLocaleString();
